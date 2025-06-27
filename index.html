@@ -1,0 +1,156 @@
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>My To-Do List</title>
+        <style>
+          body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f8f8;
+            text-align: center;
+            padding-top: 50px;
+          }
+
+          h2 {
+            color: #444;
+          }
+
+          input[type="text"], input[type="date"] {
+            padding: 10px;
+            width: 250px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin: 5px;
+          }
+
+          button {
+            padding: 10px 15px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+          }
+
+          ul {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px;
+          }
+
+          li {
+            background: #fff;
+            margin: 10px auto;
+            padding: 10px 20px;
+            width: 500px;
+            font-size: 18px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+          }
+
+          .doneText {
+            text-decoration: line-through;
+            color: gray;
+          }
+
+          .delete-btn {
+            background: #e74c3c;
+            border: none;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+          }
+
+          .delete-btn:hover {
+            background: #c0392b;
+          }
+
+          .task-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+          }
+
+          .task-date {
+            font-size: 14px;
+            color: #888;
+          }
+        </style>
+      </head>
+      <body>
+
+        <h2>?? My To-Do List (No procrastination) </h2>
+
+        <input id="taskInput" type="text" placeholder="Enter a task...">
+        <input id="taskDate" type="date">
+        <button onclick="addTask()">Add</button>
+
+        <ul id="taskList"></ul>
+
+        <script>
+          function addTask() {
+            var taskText = document.getElementById("taskInput").value.trim();
+            var taskDate = document.getElementById("taskDate").value;
+
+            if (taskText === "") return;
+
+            // Create main list item
+            var li = document.createElement("li");
+
+            // Create checkbox
+            var checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.style.marginRight = "10px";
+
+            // Create task description container
+            var taskInfo = document.createElement("div");
+            taskInfo.className = "task-info";
+
+            var taskLabel = document.createElement("span");
+            taskLabel.textContent = taskText;
+
+            // Add due date if provided
+            if (taskDate) {
+              var dateLabel = document.createElement("span");
+              dateLabel.className = "task-date";
+              dateLabel.textContent = "Due: " + taskDate;
+              taskInfo.appendChild(dateLabel);
+            }
+
+            taskInfo.insertBefore(taskLabel, taskInfo.firstChild);
+
+            // Mark as done on checkbox toggle
+            checkbox.addEventListener("change", function () {
+              taskLabel.classList.toggle("doneText");
+              if (taskDate) dateLabel.classList.toggle("doneText");
+            });
+
+            // Create delete button
+            var deleteBtn = document.createElement("button");
+            deleteBtn.textContent = "Delete";
+            deleteBtn.className = "delete-btn";
+            deleteBtn.addEventListener("click", function () {
+              li.remove();
+            });
+
+            // Append all parts to list item
+            li.appendChild(checkbox);
+            li.appendChild(taskInfo);
+            li.appendChild(deleteBtn);
+
+            // Add to list
+            document.getElementById("taskList").appendChild(li);
+
+            // Clear inputs
+            document.getElementById("taskInput").value = "";
+            document.getElementById("taskDate").value = "";
+          }
+        </script>
+
+      </body>
+      </html>
